@@ -6,7 +6,7 @@
 /*   By: jaeskim <jaeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 18:09:22 by jaeskim           #+#    #+#             */
-/*   Updated: 2021/05/09 16:54:05 by jaeskim          ###   ########.fr       */
+/*   Updated: 2021/05/11 09:58:10 by jaeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,23 @@ void	print_REDIRECT(t_redirect *redirect, int depth)
 	printf("}\n");
 }
 
+static void	print_ARG(char	*arg, int depth)
+{
+	t_list	*curr;
+
+	curr = parse_arg(arg);
+	if (curr == NULL)
+		print_parse_err(0);
+	print_depth(depth);
+	printf("\twildcard ->\n");
+	while (curr)
+	{
+		print_depth(depth);
+		printf("\t\"%s%s%s\"\n", VALUE_COLOR, (char *)curr->content, TEXT_COLOR);
+		curr = curr->next;
+	}
+}
+
 void	print_CMD(t_cmd *cmd, int depth)
 {
 	t_list	*curr;
@@ -51,6 +68,7 @@ void	print_CMD(t_cmd *cmd, int depth)
 	{
 		print_depth(depth);
 		printf("\t\"%s%s%s\"\n", VALUE_COLOR, (char *)curr->content, TEXT_COLOR);
+		print_ARG(curr->content, depth);
 		curr = curr->next;
 	}
 	print_depth(depth);

@@ -6,7 +6,7 @@
 #    By: jaeskim <jaeskim@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/24 20:10:49 by jaeskim           #+#    #+#              #
-#    Updated: 2021/04/29 18:48:51 by jaeskim          ###   ########.fr        #
+#    Updated: 2021/05/11 12:46:37 by jaeskim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ SRC_MEMORY = $(addprefix $(SRC_MEMORY_DIR)/, \
 	ft_malloc.c	\
 	ft_free.c	\
 	ft_free_ret.c	\
+	ft_none.c	\
 )
 
 SRC_STRING_DIR = $(SRC_DIR)/string

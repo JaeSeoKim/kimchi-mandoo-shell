@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "functional": "c",
+    "minishell.h": "c",
+    "__locale": "c",
+    "complex": "c",
+    "parse_util.h": "c",
+    "fcntl.h": "c"
+  }
+}

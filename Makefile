@@ -6,7 +6,7 @@
 #    By: jaeskim <jaeskim@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/06 21:07:58 by jaeskim           #+#    #+#              #
-#    Updated: 2021/05/09 14:36:09 by jaeskim          ###   ########.fr        #
+#    Updated: 2021/05/11 14:11:03 by jaeskim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ ifeq ($(DEBUG),true)
 endif
 
 RM = rm
-RMFLAGS = -f
+RMFLAGS = -rf
 
 INC_DIR = include
 CFLAGS += -I $(INC_DIR)
@@ -91,7 +91,7 @@ CRLF= \n$(LF)
 all : $(NAME)
 
 clean :
-	@$(RM) $(RMFLAGS) $(OBJS)
+	@$(RM) $(RMFLAGS) $(OBJ_DIR)
 	@printf "$(LF)🧹 $(FG_TEXT)Cleaning $(FG_TEXT_PRIMARY)$(NAME)'s Object files...\n"
 
 fclean : clean

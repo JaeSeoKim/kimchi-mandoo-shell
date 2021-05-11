@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp.h                                             :+:      :+:    :+:   */
+/*   get_evnp_value.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaeskim <jaeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/09 12:23:37 by jaeskim           #+#    #+#             */
-/*   Updated: 2021/05/11 12:52:42 by jaeskim          ###   ########.fr       */
+/*   Created: 2021/05/11 12:51:06 by jaeskim           #+#    #+#             */
+/*   Updated: 2021/05/11 12:52:40 by jaeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENVP_H
-# define ENVP_H
+#include "minishell.h"
 
-# include "minishell.h"
+char	*get_envp_value(char *name)
+{
+	char	*result;
+	t_list	*home;
 
-t_list	*get_envp(char *name, t_list *envp);
-char	*get_envp_value(char *name);
-
-#endif
+	home = get_envp(name, g_sh.envp);
+	if (!home || !ft_strchr(home->content, '='))
+		result = ft_strdup("");
+	else
+		result = ft_strdup(home->content + ft_strlen(name) + 1);
+	return (result);
+}

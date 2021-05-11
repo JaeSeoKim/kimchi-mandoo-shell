@@ -6,25 +6,12 @@
 /*   By: jaeskim <jaeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 12:22:59 by jaeskim           #+#    #+#             */
-/*   Updated: 2021/05/09 16:53:42 by jaeskim          ###   ########.fr       */
+/*   Updated: 2021/05/11 12:46:05 by jaeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parse_util.h"
-
-static char	*append_home_dir(char *cmd)
-{
-	char	*result;
-	t_list	*home;
-
-	home = get_envp("HOME", g_sh.envp);
-	if (!home || !ft_strchr(home->content, '='))
-		result = ft_strdup(cmd + 1);
-	else
-		result = ft_strjoin(home->content + 5, cmd + 1);
-	return (result);
-}
 
 static char	*free_paths_char(char **paths)
 {
@@ -85,7 +72,5 @@ char	*parse_cmd(char *cmd)
 {
 	if (!ft_strncmp(cmd, "./", 2) || !ft_strncmp(cmd, "/", 1))
 		return (ft_strdup(cmd));
-	if (!ft_strncmp(cmd, "~/", 2) || !ft_strcmp(cmd, "~"))
-		return (append_home_dir(cmd));
 	return (find_path_cmd(cmd));
 }

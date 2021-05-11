@@ -6,7 +6,7 @@
 /*   By: jaeskim <jaeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 13:37:29 by jaeskim           #+#    #+#             */
-/*   Updated: 2021/05/09 16:52:28 by jaeskim          ###   ########.fr       */
+/*   Updated: 2021/05/11 12:59:16 by jaeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,19 @@ static char	*joinenv(char **token, char *result)
 	return (result);
 }
 
-static int	is_env(char *token, int flag)
+static int	init_normalize(char **token, char **result, int *flag)
 {
-	if (flag == TK_NONE && *token == '$' && (*token + 1) && \
-		(!ft_strncmp(token, "&?", 2) || ft_isalpha(*(token + 1)) || \
-		*(token + 1) == '_'))
-		return (1);
-	return (0);
+	*flag = TK_NONE;
+	if (!ft_strncmp(*token, "~/", 2) || !ft_strcmp(*token, "~"))
+	{
+		*result = get_envp_value("HOME");
+		++(*token);
+	}
+	else
+		*result = ft_calloc(sizeof(char), 1);
+	if (*result == NULL)
+		return (0);
+	return (1);
 }
 
 static int	handle_flag(char *token, int *flag)
@@ -80,28 +86,30 @@ static int	handle_flag(char *token, int *flag)
 	return (0);
 }
 
-char	*normalize(char *token, int type)
+char	*normalize(char **token, int type)
 {
 	int		flag;
 	char	*result;
 
-	flag = 0;
-	if (!ft_malloc((void **)&result, sizeof(char)))
+	flag = TK_NONE;
+	if (!init_normalize(token, &result, &flag))
 		return (NULL);
-	while (*token)
+	while (**token)
 	{
-		if (type == NORMALIZE_ARG && flag == TK_NONE && *result == '*')
-			return (result);
-		if (!handle_flag(token, &flag))
+		if (type == NORMALIZE_ARG && flag == TK_NONE && **token == '*')
+			break ;
+		if (!handle_flag(*token, &flag))
 		{
-			if (is_env(token, flag))
-				result = joinenv(&token, result);
+			if (!(flag & ~(TK_QOUTES)) && **token == '$' && (**token + 1) && \
+				(!ft_strncmp(*token, "&?", 2) || ft_isalpha(*(*token + 1)) || \
+				*(*token + 1) == '_'))
+				result = joinenv(token, result);
 			else
-				result = ft_strappendc(result, *token);
+				result = ft_strappendc(result, **token);
 			if (result == NULL)
 				return (NULL);
 		}
-		++token;
+		++(*token);
 	}
 	return (result);
 }
